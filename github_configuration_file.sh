@@ -19,6 +19,10 @@ if [[ $RESP =~ ^(yes|y)$ ]] && ! test -f "$CHECK_KEY_ED_EXISTS"
 then
     echo "Configuring git ssh access..."
     ssh-keygen -t ed25519 -C "$EMAIL"
+    echo "Starting the ssh-agent in the background"
+    eval "$(ssh-agent -s)"
+    echo "Adding your SSH key to the ssh-agent"
+    ssh-add ~/.ssh/id_ed25519
     echo "This is your public key, add it to your account:"
     cat ~/.ssh/id_ed25519.pub
 elif [[ $RESP =~ ^(yes|y)$ ]] && test -f "$CHECK_KEY_ED_EXISTS"
